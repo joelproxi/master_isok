@@ -1,49 +1,35 @@
-package com.uds.master_isok.user.domain.model;
+package com.uds.master_isok.user;
 
-import com.uds.master_isok.authentification.domain.Role;
+import com.uds.master_isok.role.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
-@Table(name = "_users")
 @Entity
-public class User implements UserDetails {
+@Table(name = "_users")
+public class AppUser implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-
     @Column(unique = true, nullable = false)
     private String email;
-
     @Column(nullable = false)
     private String password;
-
     @Column(nullable = false)
     private String firstName;
-
     @Column(nullable = false)
     private String lastName;
-
-    private Boolean enabled = false;
-
-    private Boolean accountNonExpired = true;
-    private Boolean credentialsNonExpired = true;
-    private Boolean accountNonLocked = true;
-    private LocalDateTime lastLogin;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -51,15 +37,18 @@ public class User implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    @Builder.Default
     private Set<Role> roles = new HashSet<>();
+
+    private Boolean accountNonExpired = true;
+    private Boolean credentialsNonExpired = true;
+    private Boolean accountNonLocked = true;
+    private Boolean enabled = true;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles.stream().map(
-                role -> new SimpleGrantedAuthority("ROLE_"+ role.getName().name())
-
-        ).collect(Collectors.toList());
+                role -> new SimpleGrantedAuthority(role.getRoleName().name())
+        ).toList();
     }
 
     @Override
@@ -74,7 +63,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return UserDetails.super.isAccountNonExpired();
+        return accountNonExpired;
     }
 
     @Override
