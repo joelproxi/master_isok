@@ -38,7 +38,13 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Long createStudent(StudentRequest dto) {
-        return 0L;
+        validateEmailUniqueness(dto.email());
+
+        Student student = studentMapper.toEntity(dto);
+        Student savedStudent = studentRepository.save(student);
+
+        log.info("Created student with id: " + savedStudent.getId());
+        return savedStudent.getId();
     }
 
     @Override
