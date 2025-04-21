@@ -1,15 +1,17 @@
 package com.uds.master_isok.teacher;
 
+import org.springframework.data.domain.Page;
+
 import java.util.List;
 
 public interface TeacherService {
-    Long createTeacher(TeacherRequest teacherRequest);
+    Page<TeacherResponse> getAllTeachers(int page, int size, String search, String... sort);
 
-    TeacherResponse getTeacher(Long id);
+    TeacherResponse getTeacherById(Long id);
 
-    Long updateTeacher(Long id, TeacherRequest teacherRequest);
+    Long createTeacher(TeacherRequest dto);
+
+    Long updateTeacher(Long id, TeacherRequest dto);
 
     void deleteTeacher(Long id);
-
-    List<TeacherResponse> getAllTeachers();
 }

@@ -21,15 +21,14 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class Teacher extends Person {
     @Column(nullable = true, columnDefinition = "TEXT")
     private String biography;
 
     @Column(nullable = true, columnDefinition = "TEXT")
     private String publications;
-
-    @Column(nullable = true)
-    private String photoUrl;
 
     @ManyToMany(mappedBy = "teachers")
     private List<UE> ues;

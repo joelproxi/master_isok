@@ -11,7 +11,9 @@ import org.hibernate.validator.constraints.Length;
 @Builder
 public record TeacherRequest(
      String biography,
+
      String publications,
+
      String photoUrl,
 
      @NotEmpty(message = "First name must not be empty")

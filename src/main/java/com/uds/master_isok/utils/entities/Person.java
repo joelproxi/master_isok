@@ -23,6 +23,9 @@ public abstract class Person extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(nullable = true)
+    private String photoUrl;
+
     @Embedded
     private AuditMetadata auditMetadata;
 }
