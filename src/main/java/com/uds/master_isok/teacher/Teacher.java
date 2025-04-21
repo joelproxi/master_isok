@@ -2,11 +2,13 @@ package com.uds.master_isok.teacher;
 
 
 import com.uds.master_isok.utils.Person;
+import com.uds.master_isok.uv.UE;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "teacher",
@@ -22,12 +24,15 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class Teacher extends Person {
     @Column(nullable = true, columnDefinition = "TEXT")
-    private String bio;
+    private String biography;
 
     @Column(nullable = true, columnDefinition = "TEXT")
-    private String publication;
+    private String publications;
 
     @Column(nullable = true)
     private String photoUrl;
+
+    @ManyToMany(mappedBy = "teachers")
+    private List<UE> ues;
 
 }
