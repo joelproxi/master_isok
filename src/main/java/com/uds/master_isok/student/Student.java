@@ -22,6 +22,8 @@ import java.time.LocalDate;
 @Entity
 @SuperBuilder
 @NoArgsConstructor()
+@Getter
+@Setter
 public class Student extends Person {
         private LocalDate dateOfBirth;
         private String idNumber ;

@@ -17,16 +17,16 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 
     boolean existsByEmailIgnoreCase(String email);
 
-    @Query("SELECT t FROM Teacher t WHERE " +
+    @Query("SELECT t FROM Student t WHERE " +
             "(COALESCE(:search, '') = '' OR " +
             "LOWER(CONCAT(t.firstName, ' ', t.lastName)) LIKE LOWER(CONCAT('%', :search, '%')) OR " +
             "LOWER(t.email) LIKE LOWER(CONCAT('%', :search, '%')))")
-    Page<Teacher> searchStudents(
+    Page<Student> searchStudents(
             @Param("search") String searchFilter,
             Pageable pageable
     );
 
-    default Page<Teacher> findAllPaginated(String search, int page, int size, String... sort) {
+    default Page<Student> findAllPaginated(String search, int page, int size, String... sort) {
         return searchStudents(
                 StringUtils.hasText(search) ? search.trim().toLowerCase() : null,
                 PageRequest.of(
