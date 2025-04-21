@@ -1,13 +1,12 @@
 package com.uds.master_isok.teacher;
 
 
-import com.uds.master_isok.utils.Person;
+import com.uds.master_isok.utils.entities.Person;
 import com.uds.master_isok.uv.UE;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import java.io.Serializable;
 import java.util.List;
 
 @Entity

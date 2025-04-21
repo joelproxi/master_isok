@@ -1,7 +1,7 @@
 package com.uds.master_isok.uv;
 
 import com.uds.master_isok.teacher.Teacher;
-import com.uds.master_isok.utils.BaseEntity;
+import com.uds.master_isok.utils.entities.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

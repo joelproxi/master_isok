@@ -1,18 +1,20 @@
 package com.uds.master_isok.teacher;
 
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
 
+import java.time.Instant;
 
 @Builder
-@Setter
-@Getter
-public class TeacherResponse {
-    private String biography;
-    private String publications;
-    private String photoUrl;
-    private String firstName;
-    private String lastName;
-    private String email;
+public record TeacherResponse(
+        Long teacherId,
+        String biography,
+        String publications ,
+        String photoUrl ,
+        String firstName ,
+        String lastName ,
+        String email,
+        Instant updatedAt,
+        Instant createdAt
+){
 }

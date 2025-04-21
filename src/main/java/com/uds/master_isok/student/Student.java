@@ -1,11 +1,9 @@
 package com.uds.master_isok.student;
 
-import com.uds.master_isok.utils.Person;
+import com.uds.master_isok.utils.entities.Person;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-
-import java.io.Serializable;
 
 
 @Table(name = "student",

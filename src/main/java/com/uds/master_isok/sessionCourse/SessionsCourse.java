@@ -2,11 +2,10 @@ package com.uds.master_isok.sessionCourse;
 
 
 import com.uds.master_isok.teacher.Teacher;
-import com.uds.master_isok.utils.Person;
+import com.uds.master_isok.utils.entities.Person;
 import com.uds.master_isok.uv.UE;
 import jakarta.persistence.*;
 
-import java.io.Serializable;
 import java.time.LocalTime;
 
 @Entity

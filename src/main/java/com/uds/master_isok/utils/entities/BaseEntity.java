@@ -1,4 +1,4 @@
-package com.uds.master_isok.utils;
+package com.uds.master_isok.utils.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
