@@ -1,11 +1,14 @@
 package com.uds.master_isok.student;
 
 
+import com.uds.master_isok.teacher.TeacherRequest;
 import com.uds.master_isok.utils.payload.PagedResponse;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -33,5 +36,21 @@ public class StudentController {
     public ResponseEntity<StudentResponse> getStudent(@PathVariable Long id) {
         return ResponseEntity.ok(studentService.getStudent(id));
     }
+
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Long> updateTeacher(
+            @PathVariable Long id,
+            @Valid @RequestBody StudentRequest dto) {
+
+        return ResponseEntity.ok(studentService.updateStudent(id, dto));
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteTeacher(@PathVariable Long id) {
+        studentService.deleteStudent(id);
+    }
+
 
 }
