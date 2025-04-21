@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDate;
+
 
 @Table(name = "student",
         indexes = {
@@ -21,5 +23,6 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor()
 public class Student extends Person {
-
+        private LocalDate dateOfBirth;
+        private String idNumber ;
 }
