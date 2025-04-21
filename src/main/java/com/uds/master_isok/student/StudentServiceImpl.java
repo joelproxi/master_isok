@@ -1,5 +1,7 @@
 package com.uds.master_isok.student;
 
+import com.uds.master_isok.exceptions.DuplicateResourceException;
+import com.uds.master_isok.exceptions.ResourceNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -27,7 +29,9 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public StudentResponse getStudent(Long id) {
-        return null;
+        return studentRepository.findById(id).map(studentMapper::toDto).orElseThrow(
+                () -> new ResourceNotFoundException("Student not found with id: " + id)
+        );
     }
 
     @Override
@@ -43,6 +47,12 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public void deleteStudent(Long id) {
 
+    }
+
+    private void validateEmailUniqueness(String email) {
+        if (studentRepository.existsByEmailIgnoreCase(email)) {
+            throw new DuplicateResourceException("Email " + email + " is already taken");
+        }
     }
 
 
