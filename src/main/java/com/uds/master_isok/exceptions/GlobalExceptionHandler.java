@@ -24,6 +24,12 @@ public class GlobalExceptionHandler {
         return new ErrorResponse("Validation failed", errors);
     }
 
+    @ExceptionHandler(ResourceNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleResourceNotFoundException(ResourceNotFoundException ex) {
+        return new ErrorResponse("Missing value", ex.getMessage());
+    }
+
     @ExceptionHandler(InvalidSortFieldException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleInvalidSortField(InvalidSortFieldException ex) {
