@@ -1,5 +1,17 @@
 
+app:
+  storage:
+    type: S3 # s3 | local
+    local:
+      base-path: ./uploads
 
+aws:
+  s3:
+    bucket-name: master-isok
+    endpoint: http://localhost:4566 # LocalStack
+  region: us-east-1
+  access-key: test
+  secret-key: test
 
 
 

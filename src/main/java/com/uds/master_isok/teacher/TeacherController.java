@@ -1,8 +1,9 @@
 package com.uds.master_isok.teacher;
 
+import com.uds.master_isok.file.FileController;
+import com.uds.master_isok.file.FileStorageService;
 import com.uds.master_isok.utils.payload.PagedResponse;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
@@ -11,17 +12,25 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.net.URI;
 
 @RestController
 @RequestMapping("/teachers")
-@RequiredArgsConstructor
-@Validated
-public class TeacherController {
+public class TeacherController extends FileController<Teacher> {
 
     private final TeacherService teacherService;
     private final TeacherMapper teacherMapper;
+
+    public TeacherController(TeacherRepository repository,
+                             FileStorageService fileStorageService,
+                             TeacherService teacherService,
+                             TeacherMapper teacherMapper) {
+        super(repository, fileStorageService, "teacher");
+        this.teacherService = teacherService;
+        this.teacherMapper = teacherMapper;
+    }
 
     @GetMapping
     public ResponseEntity<PagedResponse<TeacherResponse>> getAllTeachers(
@@ -61,6 +70,12 @@ public class TeacherController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTeacher(@PathVariable Long id) {
         teacherService.deleteTeacher(id);
+    }
+
+    @PostMapping("/{id}/photo")
+    public ResponseEntity<?> uploadPhoto(@PathVariable Long id,
+                                         @RequestParam("file") MultipartFile file) {
+        return super.uploadPhoto(id, file);
     }
 
 
