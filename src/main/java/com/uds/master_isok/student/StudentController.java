@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+
 @RestController
 @RequestMapping("/students")
 @RequiredArgsConstructor
@@ -37,18 +39,27 @@ public class StudentController {
         return ResponseEntity.ok(studentService.getStudent(id));
     }
 
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Long> updateTeacher(
-            @PathVariable Long id,
+    @PostMapping
+    public ResponseEntity<Long> updateStudent(
             @Valid @RequestBody StudentRequest dto) {
 
+        Long id = studentService.createStudent(dto);
+        return ResponseEntity
+                .created(URI.create("/api/v1/students/" + id))
+                .body(id);
+    }
+
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Long> updateStudent(
+            @PathVariable Long id,
+            @Valid @RequestBody StudentRequest dto) {
         return ResponseEntity.ok(studentService.updateStudent(id, dto));
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteTeacher(@PathVariable Long id) {
+    public void deleteStudent(@PathVariable Long id) {
         studentService.deleteStudent(id);
     }
 
