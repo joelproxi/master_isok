@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import static com.uds.master_isok.utils.AppConstants.ID;
+import static com.uds.master_isok.utils.AppConstants.TEACHER;
+
 @Service
 @Slf4j
 public class TeacherServiceImpl implements TeacherService {
@@ -40,7 +43,7 @@ public class TeacherServiceImpl implements TeacherService {
     public TeacherResponse getTeacherById(Long id) {
         return teacherRepository.findById(id)
                 .map(teacherMapper::toDto)
-                .orElseThrow(() -> new ResourceNotFoundException("Teacher not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException(TEACHER, ID, id));
     }
 
     @Override
@@ -59,7 +62,7 @@ public class TeacherServiceImpl implements TeacherService {
     @Transactional
     public Long updateTeacher(Long id, TeacherRequest dto) {
         Teacher teacher = teacherRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Teacher not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException(TEACHER, ID, id));
 
         if (StringUtils.hasText(dto.email()) && !dto.email().equalsIgnoreCase(teacher.getEmail())) {
             validateEmailUniqueness(dto.email());
@@ -75,7 +78,7 @@ public class TeacherServiceImpl implements TeacherService {
     @Transactional
     public void deleteTeacher(Long id) {
         Teacher teacher = teacherRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Teacher not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException(TEACHER, ID, id));
 
         teacherRepository.delete(teacher);
         log.info("Deleted teacher with ID: {}", id);

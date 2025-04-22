@@ -2,10 +2,14 @@ package com.uds.master_isok.student;
 
 import com.uds.master_isok.exceptions.DuplicateResourceException;
 import com.uds.master_isok.exceptions.ResourceNotFoundException;
+import com.uds.master_isok.utils.AppConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
+import static com.uds.master_isok.utils.AppConstants.ID;
+import static com.uds.master_isok.utils.AppConstants.STUDENT;
 
 @Slf4j
 @Service
@@ -32,7 +36,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public StudentResponse getStudent(Long id) {
         return studentRepository.findById(id).map(studentMapper::toDto).orElseThrow(
-                () -> new ResourceNotFoundException("Student not found with id: " + id)
+                () -> new ResourceNotFoundException(STUDENT, ID, id)
         );
     }
 
@@ -50,7 +54,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Long updateStudent(Long id, StudentRequest dto) {
         Student existingStudent = studentRepository.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("Student not found with id: " + id)
+                () -> new  ResourceNotFoundException(STUDENT, ID, id)
         );
         if (StringUtils.hasText(dto.email()) && !dto.email().equalsIgnoreCase(existingStudent.getEmail())) {
             validateEmailUniqueness(dto.email());
@@ -64,7 +68,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public void deleteStudent(Long id) {
         Student existingStudent = studentRepository.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("Student not found with id: " + id)
+                () -> new ResourceNotFoundException(STUDENT, ID, id)
         );
         studentRepository.delete(existingStudent);
         log.info("Deleted student with ID: {}", id);
