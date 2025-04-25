@@ -2,6 +2,7 @@ package com.uds.master_isok.teacher;
 
 import org.mapstruct.*;
 
+
 @Mapper(componentModel = "spring")
 public interface TeacherMapper {
     @Mapping(source = "id", target = "teacherId")
@@ -12,6 +13,7 @@ public interface TeacherMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "version", ignore = true)
     @Mapping(target = "auditMetadata", ignore = true)
+    @Mapping(target = "ues", ignore = true)
     Teacher toEntity(TeacherRequest request);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

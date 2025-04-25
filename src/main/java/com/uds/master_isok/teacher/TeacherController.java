@@ -1,35 +1,41 @@
 package com.uds.master_isok.teacher;
 
-import com.uds.master_isok.file.FileController;
-import com.uds.master_isok.file.FileStorageService;
-import com.uds.master_isok.utils.payload.PagedResponse;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import lombok.RequiredArgsConstructor;
+import java.net.URI;
+
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.net.URI;
+import com.uds.master_isok.file.FileController;
+import com.uds.master_isok.file.FileStorageService;
+import com.uds.master_isok.utils.payload.PagedResponse;
+
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 
 @RestController
 @RequestMapping("/teachers")
 public class TeacherController extends FileController<Teacher> {
 
     private final TeacherService teacherService;
-    private final TeacherMapper teacherMapper;
 
     public TeacherController(TeacherRepository repository,
                              FileStorageService fileStorageService,
-                             TeacherService teacherService,
-                             TeacherMapper teacherMapper) {
+                             TeacherService teacherService) {
         super(repository, fileStorageService, "teacher");
         this.teacherService = teacherService;
-        this.teacherMapper = teacherMapper;
     }
 
     @GetMapping

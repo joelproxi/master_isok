@@ -1,9 +1,11 @@
 package com.uds.master_isok.student;
 
-import com.uds.master_isok.teacher.Teacher;
-import com.uds.master_isok.teacher.TeacherRequest;
-import com.uds.master_isok.teacher.TeacherResponse;
-import org.mapstruct.*;
+
+import org.mapstruct.BeanMapping;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
 @Mapper(componentModel = "spring")
 public interface StudentMapper {

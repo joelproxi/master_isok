@@ -1,21 +1,23 @@
 package com.uds.master_isok.teacher;
 
-import com.uds.master_isok.exceptions.DuplicateResourceException;
-import com.uds.master_isok.exceptions.ResourceNotFoundException;
-import com.uds.master_isok.utils.validation.PaginationValidator;
-import lombok.extern.slf4j.Slf4j;
+import java.util.logging.Logger;
+
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import com.uds.master_isok.exceptions.DuplicateResourceException;
+import com.uds.master_isok.exceptions.ResourceNotFoundException;
 import static com.uds.master_isok.utils.AppConstants.ID;
 import static com.uds.master_isok.utils.AppConstants.TEACHER;
+import com.uds.master_isok.utils.validation.PaginationValidator;
+
 
 @Service
-@Slf4j
 public class TeacherServiceImpl implements TeacherService {
 
+    private static final Logger log = Logger.getLogger(TeacherServiceImpl.class.getName());
     private final TeacherRepository teacherRepository;
     private final TeacherMapper teacherMapper;
     private final PaginationValidator paginationValidator;
@@ -54,7 +56,7 @@ public class TeacherServiceImpl implements TeacherService {
         Teacher teacher = teacherMapper.toEntity(dto);
         Teacher savedTeacher = teacherRepository.save(teacher);
 
-        log.info("Created teacher with ID: {}", savedTeacher.getId());
+        log.info(String.format("Created teacher with ID: %d", savedTeacher.getId()));
         return savedTeacher.getId();
     }
 
@@ -70,7 +72,7 @@ public class TeacherServiceImpl implements TeacherService {
 
         teacherMapper.updateFromDto(dto, teacher);
 
-        log.info("Updated teacher with ID: {}", id);
+        log.info(String.format("Updated teacher with ID: %d", teacher.getId()));
         return teacher.getId();
     }
 
@@ -81,7 +83,8 @@ public class TeacherServiceImpl implements TeacherService {
                 .orElseThrow(() -> new ResourceNotFoundException(TEACHER, ID, id));
 
         teacherRepository.delete(teacher);
-        log.info("Deleted teacher with ID: {}", id);
+        log.info(String.format("Deleted teacher with ID: %d", id));
+
     }
 
     private void validateEmailUniqueness(String email) {

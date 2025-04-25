@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
+
 public abstract class FileController<T extends Person> {
     private final JpaRepository<T, Long> repository;
     private final FileStorageService fileStorageService;

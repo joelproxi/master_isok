@@ -1,27 +1,32 @@
 package com.uds.master_isok.uv;
 
-import com.uds.master_isok.teacher.Teacher;
-import com.uds.master_isok.utils.entities.BaseEntity;
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-
 import java.util.HashSet;
 import java.util.Set;
 
+import com.uds.master_isok.teacher.Teacher;
+import com.uds.master_isok.utils.entities.BaseEntity;
+
+import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Index;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
+
 @Entity
 @Table(
-        name = "ue",
-        indexes = {
-            @Index(name = "idx_ue_teacher_ue", columnList = "ue_id"),
-            @Index(name = "idx_ue_title", columnList = "title")
-        }
+    name = "ue",
+    indexes = {
+        @Index(name = "idx_ue_teacher_ue", columnList = "ue_id"),
+        @Index(name = "idx_ue_title", columnList = "title")
+    }
 )
 @AttributeOverride(name = "id", column = @Column(name = "ue_id"))
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class UE extends BaseEntity {
     private String title;
 
@@ -35,7 +40,57 @@ public class UE extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Semester semester;
 
-    private enum Semester {
+    public UE(Integer credits, String description, Semester semester, String title) {
+        this.credits = credits;
+        this.description = description;
+        this.semester = semester;
+        this.title = title;
+    }
+
+    public UE() {
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Integer getCredits() {
+        return credits;
+    }
+
+    public void setCredits(Integer credits) {
+        this.credits = credits;
+    }
+
+    public Semester getSemester() {
+        return semester;
+    }
+
+    public void setSemester(Semester semester) {
+        this.semester = semester;
+    }
+
+    public Set<Teacher> getTeachers() {
+        return teachers;
+    }
+
+    public void setTeachers(Set<Teacher> teachers) {
+        this.teachers = teachers;
+    }
+
+    public enum Semester {
         SEMESTER_1, SEMESTER_2, SEMESTER_3, SEMESTER_4
     }
 
@@ -45,7 +100,7 @@ public class UE extends BaseEntity {
             joinColumns = @JoinColumn(name = "ue_id", referencedColumnName = "ue_id"),
             inverseJoinColumns = @JoinColumn(name = "teacher_id", referencedColumnName = "teacher_id")
     )
-    @Builder.Default
+
     private Set<Teacher> teachers = new HashSet<>();
 
 

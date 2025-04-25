@@ -1,21 +1,22 @@
 package com.uds.master_isok.student;
 
-import com.uds.master_isok.exceptions.DuplicateResourceException;
-import com.uds.master_isok.exceptions.ResourceNotFoundException;
-import com.uds.master_isok.utils.AppConstants;
-import lombok.extern.slf4j.Slf4j;
+import java.util.logging.Logger;
+
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import com.uds.master_isok.exceptions.DuplicateResourceException;
+import com.uds.master_isok.exceptions.ResourceNotFoundException;
 import static com.uds.master_isok.utils.AppConstants.ID;
 import static com.uds.master_isok.utils.AppConstants.STUDENT;
 
-@Slf4j
+
 @Service
 public class StudentServiceImpl implements StudentService {
     private final StudentRepository studentRepository;
     private final StudentMapper studentMapper;
+    private static final Logger log = Logger.getLogger(StudentServiceImpl.class.getName());
 
     public StudentServiceImpl(StudentRepository studentRepository, StudentMapper studentMapper) {
         this.studentRepository = studentRepository;
@@ -47,7 +48,7 @@ public class StudentServiceImpl implements StudentService {
         Student student = studentMapper.toEntity(dto);
         Student savedStudent = studentRepository.save(student);
 
-        log.info("Created student with id: " + savedStudent.getId());
+        log.info(String.format("Created student with ID: %d", savedStudent.getId()));
         return savedStudent.getId();
     }
 
@@ -61,7 +62,7 @@ public class StudentServiceImpl implements StudentService {
         }
 
         studentMapper.updateFromDto(dto, existingStudent);
-        log.info("Updated student with ID: {}", id);
+        log.info(String.format("Updated student with ID: %d", existingStudent.getId()));
         return existingStudent.getId();
     }
 
@@ -71,13 +72,14 @@ public class StudentServiceImpl implements StudentService {
                 () -> new ResourceNotFoundException(STUDENT, ID, id)
         );
         studentRepository.delete(existingStudent);
-        log.info("Deleted student with ID: {}", id);
+        log.info(String.format("Deleted student with ID: %d", existingStudent.getId()));
     }
 
     private void validateEmailUniqueness(String email) {
         if (studentRepository.existsByEmailIgnoreCase(email)) {
             throw new DuplicateResourceException("Email " + email + " is already taken");
         }
+        log.info(String.format("Validated email uniqueness for: %s", email));
     }
 
 

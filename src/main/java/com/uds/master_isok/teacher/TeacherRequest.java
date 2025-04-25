@@ -1,14 +1,15 @@
 package com.uds.master_isok.teacher;
 
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import lombok.Builder;
-
 import org.hibernate.validator.constraints.Length;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 
-@Builder
+/**
+ * A DTO for the {@link com.uds.master_isok.teacher.Teacher} entity
+ */
+// @Schema(description = "Teacher Request")
 public record TeacherRequest(
      String biography,
 

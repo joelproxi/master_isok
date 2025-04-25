@@ -1,18 +1,15 @@
 package com.uds.master_isok.utils.entities;
 
-import jakarta.persistence.*;
-import lombok.*;
-import lombok.experimental.SuperBuilder;
-
 import java.io.Serial;
 import java.io.Serializable;
 
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.Version;
+
 @MappedSuperclass
-@Getter
-@Setter
-@SuperBuilder
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class BaseEntity implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
@@ -22,6 +19,22 @@ public abstract class BaseEntity implements Serializable {
 
     @Version
     private Integer version;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
 
     @Override
     public boolean equals(Object o) {

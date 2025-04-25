@@ -1,20 +1,22 @@
 package com.uds.master_isok.file;
 
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.io.IOException;
+import java.util.logging.Logger;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 
-@Slf4j
+
 @Service
 @ConditionalOnProperty(name = "app.storage.type", havingValue = "s3")
 public class S3FileStorageService implements FileStorageService {
+
+    private static final Logger log = Logger.getLogger(LocalFileStorageService.class.getName());
 
     private final AmazonS3 s3Client;
 

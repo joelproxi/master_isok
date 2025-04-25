@@ -3,15 +3,9 @@ package com.uds.master_isok.utils.entities;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.MappedSuperclass;
-import lombok.*;
-import lombok.experimental.SuperBuilder;
+
 
 @MappedSuperclass
-@Getter
-@Setter
-@SuperBuilder
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class Person extends BaseEntity {
 
     @Column(nullable = false)
@@ -28,4 +22,56 @@ public abstract class Person extends BaseEntity {
 
     @Embedded
     private AuditMetadata auditMetadata;
+
+    public Person() {
+    }
+
+    public Person(AuditMetadata auditMetadata, String email, String firstName, String lastName, String photoUrl) {
+        this.auditMetadata = auditMetadata;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.photoUrl = photoUrl;
+    }
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
+    }
+
+    public AuditMetadata getAuditMetadata() {
+        return auditMetadata;
+    }
+
+    public void setAuditMetadata(AuditMetadata auditMetadata) {
+        this.auditMetadata = auditMetadata;
+    }
+
+   
 }

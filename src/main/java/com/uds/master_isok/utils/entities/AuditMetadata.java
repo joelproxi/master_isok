@@ -2,20 +2,12 @@ package com.uds.master_isok.utils.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
 
 @Embeddable
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class AuditMetadata {
 
     @Column(name = "created_at", updatable = false)
@@ -25,4 +17,25 @@ public class AuditMetadata {
     @Column(name = "updated_at")
     @UpdateTimestamp
     private Instant updatedAt;
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public AuditMetadata(Instant createdAt, Instant updatedAt) {
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
 }

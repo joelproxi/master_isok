@@ -2,7 +2,6 @@ package com.uds.master_isok.teacher;
 
 import org.springframework.data.domain.Page;
 
-import java.util.List;
 
 public interface TeacherService {
     Page<TeacherResponse> getAllTeachers(int page, int size, String search, String... sort);
