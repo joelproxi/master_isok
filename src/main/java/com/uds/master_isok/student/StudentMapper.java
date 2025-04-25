@@ -17,6 +17,7 @@ public interface StudentMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "version", ignore = true)
     @Mapping(target = "auditMetadata", ignore = true)
+    @Mapping(target = "photoUrl", ignore = true)
     Student toEntity(StudentRequest request);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

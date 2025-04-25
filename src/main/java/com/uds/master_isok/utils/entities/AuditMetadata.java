@@ -1,11 +1,12 @@
 package com.uds.master_isok.utils.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
+import java.time.Instant;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.Instant;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
 
 @Embeddable
 public class AuditMetadata {
@@ -38,4 +39,7 @@ public class AuditMetadata {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
+
+       public AuditMetadata() {}
+    
 }

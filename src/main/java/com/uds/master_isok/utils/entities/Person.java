@@ -23,16 +23,18 @@ public abstract class Person extends BaseEntity {
     @Embedded
     private AuditMetadata auditMetadata;
 
-    public Person() {
-    }
 
-    public Person(AuditMetadata auditMetadata, String email, String firstName, String lastName, String photoUrl) {
-        this.auditMetadata = auditMetadata;
-        this.email = email;
+    public Person(Long id, Integer version, String firstName, String lastName, String email, String photoUrl,
+            AuditMetadata auditMetadata) {
+        super(id, version);
         this.firstName = firstName;
         this.lastName = lastName;
+        this.email = email;
         this.photoUrl = photoUrl;
+        this.auditMetadata = auditMetadata;
     }
+
+ 
     public String getFirstName() {
         return firstName;
     }

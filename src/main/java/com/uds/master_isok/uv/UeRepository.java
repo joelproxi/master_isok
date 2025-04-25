@@ -1,4 +1,4 @@
-package com.uds.master_isok.teacher;
+package com.uds.master_isok.uv;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,21 +12,21 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.util.StringUtils;
 
-public interface TeacherRepository extends JpaRepository<Teacher, Long> {
+public interface UeRepository extends JpaRepository<UE, Long>{
 
-    boolean existsByEmailIgnoreCase(String email);
+    boolean existsByCodeIgnoreCase(String code);
 
-    @Query("SELECT t FROM Teacher t WHERE " +
+      @Query("SELECT t FROM UE t WHERE " +
             "(COALESCE(:search, '') = '' OR " +
-            "LOWER(CONCAT(t.firstName, ' ', t.lastName)) LIKE LOWER(CONCAT('%', :search, '%')) OR " +
-            "LOWER(t.email) LIKE LOWER(CONCAT('%', :search, '%')))")
-    Page<Teacher> searchTeachers(
+            "LOWER(CONCAT(t.title, ' ', t.credits)) LIKE LOWER(CONCAT('%', :search, '%')) OR " +
+            "LOWER(t.semester) LIKE LOWER(CONCAT('%', :search, '%')))")
+    Page<UE> searchUes(
             @Param("search") String searchFilter,
             Pageable pageable
     );
 
-    default Page<Teacher> findAllPaginated(String search, int page, int size, String... sort) {
-        return searchTeachers(
+    default Page<UE> findAllPaginated(String search, int page, int size, String... sort) {
+        return searchUes(
                 StringUtils.hasText(search) ? search.trim().toLowerCase() : null,
                 PageRequest.of(
                         page,
@@ -58,7 +58,8 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
         }
 
         return orders.isEmpty()
-                ? Sort.by("lastName").ascending()
+                ? Sort.by("title").ascending()
                 : Sort.by(orders);
     }
+
 }

@@ -36,6 +36,14 @@ public class Teacher extends Person {
     @ManyToMany(mappedBy = "teachers")
     private List<UE> ues;
 
+    public Teacher(Long id, Integer version, String firstName, String lastName, String email, String photoUrl,
+            AuditMetadata auditMetadata, String biography, String publications, List<UE> ues) {
+        super(id, version, firstName, lastName, email, photoUrl, auditMetadata);
+        this.biography = biography;
+        this.publications = publications;
+        this.ues = ues;
+    }
+
     public String getBiography() {
         return biography;
 }
@@ -60,12 +68,7 @@ public class Teacher extends Person {
         this.ues = ues;
     }
     
-    public Teacher(String biography, String publications, List<UE> ues, AuditMetadata auditMetadata, String email, String firstName, String lastName, String photoUrl) {
-        super(auditMetadata, email, firstName, lastName, photoUrl);
-        this.biography = biography;
-        this.publications = publications;
-        this.ues = ues;
-    }
+  
 
 }
 

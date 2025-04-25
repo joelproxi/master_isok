@@ -1,8 +1,9 @@
 package com.uds.master_isok.student;
 
+import org.hibernate.validator.constraints.Length;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
-import org.hibernate.validator.constraints.Length;
 
 public record StudentRequest(
         @NotEmpty(message = "First name must not be empty")
@@ -17,6 +18,7 @@ public record StudentRequest(
         @Email(message = "Email should be valid")
         String email,
 
-        String dateOfBirth
+        String dateOfBirth,
+        String idNumber
 ) {
 }

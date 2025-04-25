@@ -4,10 +4,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.uds.master_isok.teacher.Teacher;
+import com.uds.master_isok.utils.entities.AuditMetadata;
 import com.uds.master_isok.utils.entities.BaseEntity;
 
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -28,6 +30,7 @@ import jakarta.persistence.Table;
 )
 @AttributeOverride(name = "id", column = @Column(name = "ue_id"))
 public class UE extends BaseEntity {
+
     private String title;
 
     @Column(nullable = false, columnDefinition = "TEXT")
@@ -36,18 +39,39 @@ public class UE extends BaseEntity {
     @Column(nullable = false)
     private Integer credits;
 
+    @Column(name = "code", nullable = false)
+    private String code;
+
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Semester semester;
 
-    public UE(Integer credits, String description, Semester semester, String title) {
-        this.credits = credits;
-        this.description = description;
-        this.semester = semester;
-        this.title = title;
-    }
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "ue_teachers",
+            joinColumns = @JoinColumn(name = "ue_id", referencedColumnName = "ue_id"),
+            inverseJoinColumns = @JoinColumn(name = "teacher_id", referencedColumnName = "teacher_id")
+    )
+    private Set<Teacher> teachers = new HashSet<>();
 
+    @Embedded
+    private AuditMetadata auditMetadata;
+
+
+    public UE(Long id, Integer version, String title, String description, Integer credits, Semester semester,
+            Set<Teacher> teachers, AuditMetadata auditMetadata, String code) {
+        super(id, version);
+        this.title = title;
+        this.description = description;
+        this.credits = credits;
+        this.semester = semester;
+        this.teachers = teachers;
+        this.auditMetadata = auditMetadata;
+        this.code = code;
+    }
     public UE() {
+        super(null, null);
+        // Default constructor
     }
 
     public String getTitle() {
@@ -94,15 +118,26 @@ public class UE extends BaseEntity {
         SEMESTER_1, SEMESTER_2, SEMESTER_3, SEMESTER_4
     }
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "ue_teachers",
-            joinColumns = @JoinColumn(name = "ue_id", referencedColumnName = "ue_id"),
-            inverseJoinColumns = @JoinColumn(name = "teacher_id", referencedColumnName = "teacher_id")
-    )
+    public AuditMetadata getAuditMetadata() {
+        return auditMetadata;
+    }
 
-    private Set<Teacher> teachers = new HashSet<>();
+    public void setAuditMetadata(AuditMetadata auditMetadata) {
+        this.auditMetadata = auditMetadata;
+    }
 
-
-
+    public String getcode(){
+        return code;
+    }
+    public void setCode(String code){
+        this.code = code;
+    }
+    public void addTeacher(Teacher teacher) {
+        this.teachers.add(teacher);
+        teacher.getUes().add(this);
+    }
+    public void removeTeacher(Teacher teacher) {
+        this.teachers.remove(teacher);
+        teacher.getUes().remove(this);
+    }
 }

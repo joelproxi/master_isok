@@ -27,19 +27,19 @@ import jakarta.persistence.UniqueConstraint;
 @AttributeOverride(name = "id", column = @Column(name = "student_id"))
 @Entity
 public class Student extends Person {
-        private LocalDate dateOfBirth;
-        private String idNumber ;
+
+    private LocalDate dateOfBirth;
+    private String idNumber ;
 
 
-    public Student() {
-        super();
-    }
 
-    public Student(LocalDate dateOfBirth, String idNumber, AuditMetadata auditMetadata, String email, String firstName, String lastName, String photoUrl) {
-        super(auditMetadata, email, firstName, lastName, photoUrl);
-        this.dateOfBirth = dateOfBirth;
-        this.idNumber = idNumber;
-    }
+    public Student(Long id, Integer version, String firstName, String lastName, String email, String photoUrl,
+        AuditMetadata auditMetadata, LocalDate dateOfBirth, String idNumber) {
+    super(id, version, firstName, lastName, email, photoUrl, auditMetadata);
+    this.dateOfBirth = dateOfBirth;
+    this.idNumber = idNumber;
+}
+
 
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
