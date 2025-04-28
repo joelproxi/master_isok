@@ -1,6 +1,56 @@
 
-
 services:
+  app:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: master-isok
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    networks:
+      - backend
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file:
+      - .env.dev
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/master_isok
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+      JAVA_OPTS: >-
+        -Xmx512m
+        -Xms256m
+        -XX:MaxRAMPercentage=75.0
+        -XX:+UseG1GC
+        -XX:+ExitOnOutOfMemoryError
+    volumes:
+      - logs:/app/logs
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 768M
+
+  postgres:
+    image: postgres:17-alpine
+    container_name: postgres
+    restart: unless-stopped
+    networks:
+      - backend
+    env_file:
+      - .env.dev
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./postgres/init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d master_isok"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
   localstack:
     image: localstack/localstack
     ports:
@@ -14,3 +64,20 @@ services:
     volumes:
       - ./localstack_data:/var/lib/localstack
       - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - backend
+
+volumes:
+  pgdata:
+  logs:
+  grafana_data:
+
+networks:
+  backend:
+    driver: bridge
+    attachable: true
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
+
+

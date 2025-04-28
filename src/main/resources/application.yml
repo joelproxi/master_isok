@@ -1,3 +1,19 @@
+spring:
+  application:
+    name:
+      master_isok
+
+      
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/master_isok}
+    username: ${SPRING_DATASOURCE_USERNAME:admin}
+    password: ${SPRING_DATASOURCE_PASSWORD:admin}
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+
 
 app:
   storage:
