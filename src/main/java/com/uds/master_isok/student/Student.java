@@ -31,14 +31,16 @@ public class Student extends Person {
     private LocalDate dateOfBirth;
     private String idNumber ;
 
-
-
     public Student(Long id, Integer version, String firstName, String lastName, String email, String photoUrl,
         AuditMetadata auditMetadata, LocalDate dateOfBirth, String idNumber) {
     super(id, version, firstName, lastName, email, photoUrl, auditMetadata);
     this.dateOfBirth = dateOfBirth;
     this.idNumber = idNumber;
 }
+
+    public Student() {
+        super();
+    }
 
 
     public LocalDate getDateOfBirth() {

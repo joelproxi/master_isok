@@ -44,7 +44,7 @@ public class UeServiceImpl implements UeService {
             throw new DuplicateResourceException("exiting UE");
         }
         ue = ueRepository.save(ue);
-        System.out.println(String.format("Created UE with ID: %d", ue.getId()));
+        System.out.printf("Created UE with ID: %d%n", ue.getId());
         return ue.getId();
     }
 
@@ -57,7 +57,7 @@ public class UeServiceImpl implements UeService {
         UE updatedUe = ueMapper.toEntity(dto);
         updatedUe.setId(existingUe.getId());
         ueRepository.save(updatedUe);
-        System.out.println(String.format("Updated UE with ID: %d", id));
+        System.out.printf("Updated UE with ID: %d%n", id);
         return updatedUe.getId();
     }
 

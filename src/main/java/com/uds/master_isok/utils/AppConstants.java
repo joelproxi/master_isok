@@ -6,5 +6,9 @@ public class AppConstants {
     public static final String EMAIL = "Email";
     public static final String TEACHER = "Teacher";
     public static final String STUDENT = "Student";
-
+    public static final String COURSE_SESSION = "Course Session";
+    public static final String COURSE = "Course";
+    public static final String UE = "Ue";
 }
+
+

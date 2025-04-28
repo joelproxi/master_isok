@@ -1,6 +1,7 @@
 package com.uds.master_isok.sessionCourse;
 
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 import com.uds.master_isok.teacher.Teacher;
@@ -17,9 +18,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "course_session")
-@AttributeOverride(name = "id", column = @Column(name = "courseSession_id"))
-public class SessionsCourse extends BaseEntity {
+@Table(name = "courses")
+@AttributeOverride(name = "id", column = @Column(name = "courses_id"))
+public class Courses extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "course_id", foreignKey = @ForeignKey(name = "kf_course_session"))
@@ -28,6 +29,9 @@ public class SessionsCourse extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "teacher_id", foreignKey = @ForeignKey(name = "fk_session_teacher"))
     private Teacher teacher;
+
+    @Column(name = "session_date", nullable = false)
+    private LocalDate sessionDate;
 
     @Column(name = "start_time", nullable = false)
     private LocalTime startTime;
@@ -67,14 +71,28 @@ public class SessionsCourse extends BaseEntity {
         this.endTime = endTime;
     }
 
-    public SessionsCourse(Long id, Integer version, UE ue, Teacher teacher, LocalTime startTime, LocalTime endTime) {
-        super(id, version);
+
+        public LocalDate getSessionDate() {
+        return sessionDate;
+    }
+
+    public void setSessionDate(LocalDate sessionDate) {
+        this.sessionDate = sessionDate;
+    }
+    public Courses() {
+        super(null, null);
+        // Default constructor
+    }
+    public Courses(UE ue, Teacher teacher, LocalDate sessionDate, LocalTime startTime, LocalTime endTime) {
+        super(null, null);
         this.ue = ue;
         this.teacher = teacher;
+        this.sessionDate = sessionDate;
         this.startTime = startTime;
         this.endTime = endTime;
     }
 
+ 
 
 
 }

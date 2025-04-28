@@ -34,7 +34,11 @@ public abstract class Person extends BaseEntity {
         this.auditMetadata = auditMetadata;
     }
 
- 
+    public Person() {
+        super();
+    }
+
+
     public String getFirstName() {
         return firstName;
     }
