@@ -44,6 +44,10 @@ public class Teacher extends Person {
         this.ues = ues;
     }
 
+    public Teacher() {
+
+    }
+
     public String getBiography() {
         return biography;
 }

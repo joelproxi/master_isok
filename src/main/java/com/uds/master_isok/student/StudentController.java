@@ -3,6 +3,8 @@ package com.uds.master_isok.student;
 
 import java.net.URI;
 
+import com.uds.master_isok.file.FileController;
+import com.uds.master_isok.file.FileStorageService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,16 +25,25 @@ import com.uds.master_isok.utils.payload.PagedResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/students")
 @Validated
-public class StudentController {
+public class StudentController extends FileController<Student> {
 
     private final StudentService studentService;
+    private final StudentRepository studentRepository;
+    private final FileStorageService fileStorageService;
 
-    public StudentController(StudentService studentService) {
+    public StudentController(
+            StudentService studentService,
+            StudentRepository studentRepository,
+            FileStorageService fileStorageService) {
+        super(studentRepository, fileStorageService, "student");
         this.studentService = studentService;
+        this.studentRepository = studentRepository;
+        this.fileStorageService = fileStorageService;
     }
 
     @GetMapping
@@ -73,6 +84,12 @@ public class StudentController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteStudent(@PathVariable Long id) {
         studentService.deleteStudent(id);
+    }
+
+    @PostMapping("/{id}/photo")
+    public ResponseEntity<?> uploadPhoto(@PathVariable Long id,
+                                         @RequestParam("file") MultipartFile file) {
+        return super.uploadPhoto(id, file);
     }
 
 

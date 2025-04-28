@@ -1,5 +1,7 @@
 package com.uds.master_isok.sessionCourse;
 
+import com.uds.master_isok.teacher.Teacher;
+import com.uds.master_isok.uv.UE;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -35,5 +37,15 @@ public class CoursesMapper {
         CoursesResponse.setUe(ueSimpleResponse);
         CoursesResponse.setTeacher(teacherSimpleResponse);
         return CoursesResponse;
+    }
+
+    public Courses toEntity(CoursesRequest dto, UE ue, Teacher teacher) {
+        Courses course = new Courses();
+        course.setUe(ue);
+        course.setTeacher(teacher);
+        course.setSessionDate(dto.sessionDate());
+        course.setEndTime(dto.endTime());
+        course.setStartTime(dto.startTime());
+        return course;
     }
 }
